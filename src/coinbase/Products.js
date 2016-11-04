@@ -19,13 +19,13 @@ export default class Products {
         this._orderbooks = {};
         this._callbacks = [];
 
-        this._socketUrl = sampleData ? '/sample-data/socket.json' : 'wss://ws-feed.gdax.com';
+        this._socketUrl = sampleData ? process.env.PUBLIC_URL + '/sample-data/socket.json' : 'wss://ws-feed.gdax.com';
         this._bookUrl = (product) => {
-            return sampleData ? '/sample-data/book_' + product.toLowerCase() + '.json' :
+            return sampleData ? process.env.PUBLIC_URL + '/sample-data/book_' + product.toLowerCase() + '.json' :
                 `https://api.exchange.coinbase.com/products/${product}/book?level=3`;
         };
         this._tickerUrl = (product) => {
-            return sampleData ? '/sample-data/ticker_' + product.toLowerCase() + '.json' :
+            return sampleData ? process.env.PUBLIC_URL + '/sample-data/ticker_' + product.toLowerCase() + '.json' :
                 `https://api.exchange.coinbase.com/products/${product}/ticker`;
         };
     }
