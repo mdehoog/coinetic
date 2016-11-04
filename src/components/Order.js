@@ -2,7 +2,16 @@ import React, {Component, PropTypes} from 'react';
 import {Events, Body, Composite, Bodies} from 'matter-js';
 import TinyAnimate from 'TinyAnimate';
 
-class Orders extends Component {
+const strokeColors = {
+    btc: '#FF9900',
+    usd: '#216C2A',
+    eth: '#4d8ee9',
+    ltc: '#404040',
+    gbp: '#C60C30',
+    eur: '#003399'
+};
+
+export default class Orders extends Component {
 
     static contextTypes = {
         loop: PropTypes.object,
@@ -203,8 +212,9 @@ class Orders extends Component {
         const {order} = this.props;
         const product = order.product.toLowerCase();
         const className = 'order ' + product + '-' + order.side;
+        const styling = this.constructor.circleStyling(order);
         return (
-            <g id={order.id} className={className}
+            <g id={order.id} className={className} stroke={styling.stroke} fill={styling.fill}
                ref={(group) => this.group = group}
                onMouseEnter={() => this.onMouseEnter()}
                onMouseLeave={() => this.onMouseLeave()}>
@@ -213,6 +223,13 @@ class Orders extends Component {
             </g>
         );
     }
-}
 
-export default Orders;
+    static circleStyling(order) {
+        const buy = order.side === 'buy';
+        const split = order.product.toLowerCase().split('-');
+        return {
+            fill: 'url(#' + (buy ? split[1] : split[0]) + ')',
+            stroke: strokeColors[buy ? split[0] : split[1]]
+        };
+    }
+}

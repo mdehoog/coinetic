@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Order from './Order';
 import './Tooltip.css';
 
 export default class Tooltip extends Component {
@@ -35,6 +36,7 @@ export default class Tooltip extends Component {
         const {order, visible} = this.props;
         let className = 'tooltip ' + (visible ? ' visible' : '');
         let line1, line2, line3, line4;
+        let styling = {};
         if (order) {
             const split = order.product.split('-');
             const buy = order.side === 'buy';
@@ -45,13 +47,14 @@ export default class Tooltip extends Component {
             line3 = 'wants';
             line4 = buy ? size : amount;
             className += ' order ' + order.product.toLowerCase() + '-' + order.side;
+            styling = Order.circleStyling(order);
         }
 
         return (
             <g className={className}
                ref={(group) => this.group = group}>
                 <g>
-                    <circle cx="0" cy="0" r="0"
+                    <circle cx="0" cy="0" r="0" stroke={styling.stroke} fill={styling.fill}
                             ref={(circle) => this.circle = circle}/>
                     <text fontSize="12" className="outlined"
                           ref={(text) => this.text = text}>
