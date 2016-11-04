@@ -1,0 +1,71 @@
+g.order circle {
+    transition: opacity 500ms ease-in, transform 200ms ease-in-out;
+}
+
+g.order circle:hover {
+    transform: scale(1.2);
+}
+
+g.order.btc-usd-buy circle,
+g.order.btc-gbp-buy circle,
+g.order.btc-eur-buy circle,
+g.order.eth-btc-sell circle,
+g.order.ltc-btc-sell circle {
+    stroke: #FF9900;
+}
+
+g.order.btc-usd-sell circle,
+g.order.eth-usd-sell circle,
+g.order.ltc-usd-sell circle {
+    stroke: #216C2A;
+}
+
+g.order.eth-usd-buy circle,
+g.order.eth-btc-buy circle {
+    stroke: #4d8ee9;
+}
+
+g.order.ltc-usd-buy circle,
+g.order.ltc-btc-buy circle {
+    stroke: #404040;
+}
+
+g.order.btc-gbp-sell circle {
+    stroke: #C60C30;
+}
+
+g.order.btc-eur-sell circle {
+    stroke: #003399;
+}
+
+g.order.btc-usd-sell circle,
+g.order.btc-gbp-sell circle,
+g.order.btc-eur-sell circle,
+g.order.eth-btc-buy circle,
+g.order.ltc-btc-buy circle {
+    fill: url(#btc);
+}
+
+g.order.btc-usd-buy circle,
+g.order.eth-usd-buy circle,
+g.order.ltc-usd-buy circle {
+    fill: url(#usd);
+}
+
+g.order.eth-usd-sell circle,
+g.order.eth-btc-sell circle {
+    fill: url(#eth);
+}
+
+g.order.ltc-usd-sell circle,
+g.order.ltc-btc-sell circle {
+    fill: url(#ltc);
+}
+
+g.order.btc-gbp-buy circle {
+    fill: url(#gbp);
+}
+
+g.order.btc-eur-buy circle {
+    fill: url(#eur);
+}
