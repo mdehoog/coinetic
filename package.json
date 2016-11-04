@@ -2,6 +2,7 @@
   "name": "coinpit",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mdehoog.github.io/coinpit/",
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
