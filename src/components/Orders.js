@@ -177,7 +177,7 @@ export default class Orders extends Component {
             const radius = this.radius(order.size, order);
             orderArea += radius * radius;
         });
-        this.scale = Math.sqrt(area / (orderArea * 4));
+        this.scale = orderArea === 0 ? 1 : Math.sqrt(area / (orderArea * 4));
 
         this.components = {};
         const renderOrder = (order) => {
@@ -192,10 +192,15 @@ export default class Orders extends Component {
                        onMove={(body) => this.onMove(order, body)}/>
             );
         };
+        let tooltipOrderFound = false;
         const orderChildren = orders.map((order) => {
-            return order === tooltipOrder ? null : renderOrder(order);
+            if (order === tooltipOrder) {
+                tooltipOrderFound = true;
+                return null;
+            }
+            return renderOrder(order);
         });
-        if (tooltipOrder) {
+        if (tooltipOrderFound && tooltipOrder) {
             orderChildren.push(renderOrder(tooltipOrder));
         }
 
