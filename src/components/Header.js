@@ -22,7 +22,7 @@ export default class Header extends Component {
         const {limit, products, enabledProducts} = this.props;
         const inputs = products.map((product) => {
             return (
-                <span>
+                <span key={product}>
                     <input type="checkbox" id={product}
                            checked={enabledProducts.indexOf(product) >= 0}
                            onChange={(event) => this.onToggle(event.target.checked, product)}/>
