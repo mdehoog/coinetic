@@ -1,8 +1,8 @@
 {
-  "name": "coinpit",
+  "name": "coinetic",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mdehoog.github.io/coinpit/",
+  "homepage": "https://mdehoog.github.io/coinetic/",
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
