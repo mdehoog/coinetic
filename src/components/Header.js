@@ -31,7 +31,6 @@ export default class Header extends Component {
                 </span>
             );
         });
-        console.log(products);
         return (
             <div className="outlined" style={{position: 'absolute', width: '100%', textAlign: 'center'}}>
                 <h1>Coinbase top {limit} bids/asks</h1>
