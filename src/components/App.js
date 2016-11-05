@@ -24,6 +24,13 @@ export default class App extends Component {
             'LTC-USD': 'sawtooth',
             'LTC-BTC': 'sawtooth'
         };
+        this.state = {
+            width: 1,
+            height: 1,
+            ready: false,
+            products: ['BTC-USD', 'BTC-GBP', 'BTC-EUR', 'ETH-USD', 'ETH-BTC', 'LTC-USD', 'LTC-BTC'],
+            enabledProducts: ['BTC-USD', 'ETH-USD', 'LTC-USD']
+        };
     }
 
     componentWillMount() {
@@ -46,9 +53,8 @@ export default class App extends Component {
     };
 
     render() {
-        const {width, height, ready} = this.state;
+        const {width, height, ready, products, enabledProducts} = this.state;
         const border = 0;
-        const allProducts = ['BTC-USD', 'BTC-GBP', 'BTC-EUR', 'ETH-USD', 'ETH-BTC', 'LTC-USD', 'LTC-BTC'];
         const limit = 10;
         return (
             <div>
@@ -59,14 +65,16 @@ export default class App extends Component {
                         <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" version="1.1">
                             <Defs/>
                             <Walls width={width} height={height} border={border}/>
-                            <Orders width={width} height={height} border={border} products={allProducts} limit={limit}
+                            <Orders width={width} height={height} border={border}
+                                    products={products} enabledProducts={enabledProducts} limit={limit}
                                     onReady={() => this.onReady()}/>
                         </svg>
                     </World>
                 </Loop>
                 {ready &&
                 <Fader>
-                    <Header limit={limit}/>
+                    <Header limit={limit} products={products} enabledProducts={enabledProducts}
+                            onChange={(newEnabledProducts) => this.setState({enabledProducts: newEnabledProducts})}/>
                     <Footer/>
                 </Fader>
                 }
@@ -97,7 +105,6 @@ export default class App extends Component {
         //10 btc = 220
         //100 btc = 110
         //1000 btc = 55
-
 
         const {width, height} = this.state;
         const magScale = 10000 / (width * height);

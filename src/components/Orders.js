@@ -6,7 +6,7 @@ import './Order.css';
 
 export default class Orders extends Component {
 
-    constructor() {
+    constructor(props) {
         super(...arguments);
         this.components = {};
         this.scale = 1;
@@ -15,6 +15,16 @@ export default class Orders extends Component {
             tooltipOrder: null,
             tooltipVisible: false
         };
+        this.enabledProducts = this.arrayToObject(props.enabledProducts);
+        this.disabledOrders = [];
+    }
+
+    arrayToObject(array) {
+        const object = {};
+        array.forEach((s) => {
+            object[s] = true;
+        });
+        return object;
     }
 
     componentDidMount() {
@@ -32,6 +42,35 @@ export default class Orders extends Component {
         this.products.close();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.enabledProducts !== this.props.enabledProducts) {
+            this.enabledProducts = this.arrayToObject(nextProps.enabledProducts);
+            const removeOrders = [];
+            const addOrders = [];
+            this.disabledOrders = this.removeAll(this.disabledOrders, (e) => {
+                return this.enabledProducts[e.product];
+            }, addOrders);
+            const orders = this.removeAll(this.state.orders, (e) => {
+                return !this.enabledProducts[e.product];
+            }, removeOrders);
+            this.disabledOrders.push.apply(this.disabledOrders, removeOrders);
+            orders.push.apply(orders, addOrders);
+            this.setState({
+                orders: orders
+            });
+        }
+    }
+
+    removeAll(array, test, removed) {
+        return array.filter((e) => {
+            if (test(e)) {
+                removed.push(e);
+                return false;
+            }
+            return true;
+        })
+    }
+
     productEvent(product, event, data) {
         this[event](data);
     }
@@ -46,6 +85,10 @@ export default class Orders extends Component {
 
     //data = {order: order}
     add(data) {
+        if (!this.enabledProducts[data.order.product]) {
+            this.disabledOrders.push(data.order);
+            return;
+        }
         const c = this.components[data.order.id];
         if (c) {
             c.cancelRemove();
@@ -56,6 +99,13 @@ export default class Orders extends Component {
 
     //data = {order: order}
     remove(data) {
+        if (!this.enabledProducts[data.order.product]) {
+            const index = this.disabledOrders.indexOf(data.order);
+            if (index >= 0) {
+                this.disabledOrders.splice(index, 1);
+            }
+            return;
+        }
         const c = this.components[data.order.id];
         if (c) {
             c.remove();
